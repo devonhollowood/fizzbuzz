@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 
 template <char... Cs>
 struct string {
@@ -47,22 +47,22 @@ struct itoa {
 };
 
 template <bool B>
-struct fizz {
+struct Fizz {
     using result = string<>;
 };
 
 template<>
-struct fizz<true> {
+struct Fizz<true> {
     using result = string<'F', 'i', 'z', 'z'>;
 };
 
 template <bool B>
-struct buzz {
+struct Buzz {
     using result = string<>;
 };
 
 template<>
-struct buzz<true> {
+struct Buzz<true> {
     using result = string<'B', 'u', 'z', 'z'>;
 };
 
@@ -80,15 +80,36 @@ struct ready<N, string<>> {
 };
 
 template <size_t N>
-struct fizzbuzz{
+struct FizzBuzz{
     using result = typename ready<
         N,
-        typename string_concat<typename fizz<N%3==0>::result,
-                      typename buzz<N%5==0>::result
+        typename string_concat<typename Fizz<N%3==0>::result,
+                      typename Buzz<N%5==0>::result
         >::result
     >::result;
 };
 
+template <size_t N, size_t Target>
+struct FizzBuzzPrinter_helper{
+    using result = typename string_concat<
+        typename string_concat<
+            typename FizzBuzz<N>::result,
+            string<'\n'>
+        >::result,
+        typename FizzBuzzPrinter_helper<N+1, Target>::result
+    >::result;
+};
+
+template <size_t N>
+struct FizzBuzzPrinter_helper<N,N>{
+    using result = typename FizzBuzz<N>::result;
+};
+
+template <size_t Target>
+struct FizzBuzzPrinter {
+    using result = typename FizzBuzzPrinter_helper<1, Target>::result;
+};
+
 int main() {
-    std::cout << fizzbuzz<31>::result::value << std::endl;
+    printf("%s\n", FizzBuzzPrinter<100>::result::value);
 }
