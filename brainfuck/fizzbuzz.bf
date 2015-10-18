@@ -24,7 +24,7 @@ write fizzbuzz\n string (touches next space but then sets to zero)
 +          > newline = 10
 - decrement loop counter
 ]
-<<<<< <<< go to I (F alread okay)
+<<<<< <<< go to I (F already okay)
 +++   > fix I
       > Z okay
       > Z okay
