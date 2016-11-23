@@ -1,0 +1,1 @@
+This `fizzbuzz` uses a recursive call to `main()`. This is *definitely* undefined behavior, but, you know, that just makes it more fun! It works for me (and as-far-as-I-can-tell does not summon dragons) on `gcc 6.2.1`.
